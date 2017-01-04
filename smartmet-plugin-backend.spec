@@ -6,7 +6,7 @@ Version: 17.1.4
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
-URL: http://www.weatherproof.fi
+URL: https://github.com/fmidev/smartmet-plugin-backend
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: smartmet-library-spine-devel >= 17.1.4

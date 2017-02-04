@@ -35,8 +35,16 @@ class Plugin : public SmartMetPlugin
                       const HTTP::Request& theRequest,
                       HTTP::Response& theResponse);
 
+  void faviconHandler(Reactor& theReactor,
+                      const HTTP::Request& theRequest,
+                      HTTP::Response& theResponse);
+
  private:
   const std::string itsModuleName;
+  const std::string itsConfig;
+  SmartMet::Spine::Reactor* itsReactor = nullptr;
+  std::string itsFavicon;
+
 };  // class Plugin
 
 }  // namespace Backend

@@ -5,11 +5,13 @@
 // ======================================================================
 
 #include "Plugin.h"
-#include "Favicon.h"
 #include <spine/SmartMet.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
 
+#include <libconfig.h++>
+
+#include <ctime>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -20,6 +22,44 @@ namespace Plugin
 {
 namespace Backend
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Format a time for HTTP output
+ *
+ * The output is generated with strftime using format
+ * "%a,  %d  %b  %Y  %H:%M:%S" as adviced in the
+ * man-pages for strftime.
+ */
+// ----------------------------------------------------------------------
+
+std::string format_time(const ::time_t theTime)
+{
+  struct ::tm t;
+  gmtime_r(&theTime, &t);
+  const ::size_t MAXLEN = 100;
+  char buffer[MAXLEN];
+  ::size_t n = strftime(buffer, MAXLEN, "%a, %d %b %Y %H:%M:%S GMT", &t);
+  std::string ret(buffer, 0, n);
+  return ret;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Read a file into a string
+ */
+// ----------------------------------------------------------------------
+
+std::string read_file(const std::string &filename)
+{
+  std::string content;
+  std::ifstream in(filename.c_str());
+  if (!in)
+    throw SmartMet::Spine::Exception(BCP, "Failed to open '" + filename + "' for reading!");
+
+  content.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+  return content;
+}
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Reply to / requests
@@ -76,33 +116,62 @@ void sleep(Reactor & /* theReactor */,
  */
 // ----------------------------------------------------------------------
 
-Plugin::Plugin(SmartMet::Spine::Reactor *theReactor, const char * /* theConfig */)
-    : SmartMetPlugin(), itsModuleName("Backend")
+Plugin::Plugin(SmartMet::Spine::Reactor *theReactor, const char *theConfig)
+    : SmartMetPlugin(), itsModuleName("Backend"), itsConfig(theConfig)
+{
+  if (theReactor->getRequiredAPIVersion() != SMARTMET_API_VERSION)
+    throw SmartMet::Spine::Exception(BCP, "Backend and Server API version mismatch");
+
+  itsReactor = theReactor;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Initialize the plugin
+ */
+// ----------------------------------------------------------------------
+void Plugin::init()
 {
   try
   {
-    if (theReactor->getRequiredAPIVersion() != SMARTMET_API_VERSION)
-      throw SmartMet::Spine::Exception(BCP, "Backend and Server API version mismatch");
+    // We allow the configuration file to be unset,
+    // favicon.ico will then return status code204
 
-    // Launch a new instance of BSputnik on network ItsNetworkAddress
+    if (!itsConfig.empty())
+    {
+      // Read the configuration file
+      libconfig::Config config;
+
+      config.readFile(itsConfig.c_str());
+
+      // Favicon.ico location, if any
+      std::string favicon;
+      config.lookupValue("favicon", favicon);
+      if (!favicon.empty())
+      {
+        itsFavicon = read_file(favicon);
+      }
+    }
+
+    // Launch a new instance of Sputnik on network ItsNetworkAddress
     SmartMet::Engine::Sputnik::Engine *sputnik =
         reinterpret_cast<SmartMet::Engine::Sputnik::Engine *>(
-            theReactor->getSingleton("Sputnik", (void *)NULL));
+            itsReactor->getSingleton("Sputnik", (void *)NULL));
 
     // Start Sputnik engine in backend mode
-    sputnik->launch(SmartMet::Engine::Sputnik::Backend, theReactor);
+    sputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
 
-    if (!theReactor->addContentHandler(this, "/", boost::bind(&baseContentHandler, _1, _2, _3)))
+    if (!itsReactor->addContentHandler(this, "/", boost::bind(&baseContentHandler, _1, _2, _3)))
       throw SmartMet::Spine::Exception(BCP, "Failed to register base content handler");
 
 #ifndef NDEBUG
-    if (!theReactor->addContentHandler(this, "/sleep", boost::bind(&sleep, _1, _2, _3)))
+    if (!itsReactor->addContentHandler(this, "/sleep", boost::bind(&sleep, _1, _2, _3)))
       throw SmartMet::Spine::Exception(BCP, "Failed to register sleep content handler");
 #endif
 
     // Add Favicon content handler
-    if (!theReactor->addContentHandler(
-            this, "/favicon.ico", boost::bind(&Server::Favicon::contenthandler, _1, _2, _3)))
+    if (!itsReactor->addContentHandler(
+            this, "/favicon.ico", boost::bind(&Plugin::faviconHandler, this, _1, _2, _3)))
       throw SmartMet::Spine::Exception(BCP, "Failed to register favicon.ico content handler");
   }
   catch (...)
@@ -113,17 +182,27 @@ Plugin::Plugin(SmartMet::Spine::Reactor *theReactor, const char * /* theConfig *
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Initialize the plugin (trivial in this case)
+ * \brief Send favicon.ico
  */
 // ----------------------------------------------------------------------
-void Plugin::init()
+
+void Plugin::faviconHandler(Reactor & /* theReactor */,
+                            const HTTP::Request & /* theRequest */,
+                            HTTP::Response &theResponse)
 {
+  if (itsFavicon.empty())
+  {
+    theResponse.setStatus(HTTP::Status::no_content);
+  }
+  else
+  {
+    ::time_t expiration_time = time(0) + 7 * 24 * 3600;  // 7 days
+    theResponse.setStatus(HTTP::Status::ok);
+    theResponse.setHeader("Content-Type", "image/vnd.microsoft.icon");
+    theResponse.setHeader("Expires", format_time(expiration_time));
+    theResponse.setContent(itsFavicon);
+  }
 }
-// ----------------------------------------------------------------------
-/*!
- * \brief Destructor
- */
-// ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 /*!

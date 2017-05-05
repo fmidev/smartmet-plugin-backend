@@ -2,21 +2,22 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 17.3.15
+Version: 17.5.5
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
 URL: https://github.com/fmidev/smartmet-plugin-backend
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: smartmet-library-spine-devel >= 17.3.15
+BuildRequires: smartmet-library-spine-devel >= 17.5.5
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 17.3.15
 BuildRequires: libconfig
 Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 17.3.15
-Requires: smartmet-library-spine >= 17.3.15
+Requires: smartmet-server >= 17.4.8
+Requires: smartmet-library-spine >= 17.5.5
+Requires: smartmet-engine-sputnik >= 17.3.15
 %if 0%{rhel} >= 7
 Requires: boost-system
 %endif
@@ -46,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Fri May  5 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.5.5-1.fmi
+- Added sputnik requirement
+
 * Wed Mar 15 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.3.15-1.fmi
 - Recompiled since Spine::Exception changed
 

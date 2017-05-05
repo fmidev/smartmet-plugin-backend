@@ -9,8 +9,6 @@
 #include <spine/SmartMetPlugin.h>
 #include <spine/Reactor.h>
 
-#include <engines/sputnik/Engine.h>
-
 namespace SmartMet
 {
 namespace Plugin

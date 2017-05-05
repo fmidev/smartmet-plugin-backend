@@ -5,6 +5,9 @@
 // ======================================================================
 
 #include "Plugin.h"
+
+#include <engines/sputnik/Engine.h>
+
 #include <spine/SmartMet.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>

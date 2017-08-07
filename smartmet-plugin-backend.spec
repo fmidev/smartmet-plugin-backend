@@ -9,6 +9,7 @@ Group: SmartMet/Plugins
 URL: https://github.com/fmidev/smartmet-plugin-backend
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: make
 BuildRequires: smartmet-library-spine-devel >= 17.5.5
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 17.3.15

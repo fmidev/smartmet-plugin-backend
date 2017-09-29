@@ -15,6 +15,7 @@ BuildRequires: smartmet-library-spine-devel >= 17.8.28
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 17.8.28
 BuildRequires: libconfig
+BuildRequires: boost-devel
 Requires: libconfig
 Requires: protobuf
 Requires: smartmet-server >= 17.8.28

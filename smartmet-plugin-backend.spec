@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 17.8.28
+Version: 18.3.20
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -11,16 +11,16 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 17.8.28
+BuildRequires: smartmet-library-spine-devel >= 18.3.7
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 17.8.28
+BuildRequires: smartmet-engine-sputnik-devel >= 18.3.20
 BuildRequires: libconfig
 BuildRequires: boost-devel
 Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 17.8.28
-Requires: smartmet-library-spine >= 17.8.28
-Requires: smartmet-engine-sputnik >= 17.8.28
+Requires: smartmet-server >= 17.11.10
+Requires: smartmet-library-spine >= 18.3.7
+Requires: smartmet-engine-sputnik >= 18.3.20
 %if 0%{rhel} >= 7
 Requires: boost-system
 %endif
@@ -50,6 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Tue Mar 20 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.3.20-1.fmi
+- Full recompile of all server plugins
+
 * Mon Aug 28 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
 - Upgrade to boost 1.65
 

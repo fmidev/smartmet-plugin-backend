@@ -8,9 +8,9 @@
 
 #include <engines/sputnik/Engine.h>
 
-#include <spine/SmartMet.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
+#include <spine/SmartMet.h>
 
 #include <libconfig.h++>
 
@@ -218,9 +218,7 @@ void Plugin::shutdown()
   std::cout << "  -- Shutdown requested (BackendPlugin)\n";
 }
 
-Plugin::~Plugin()
-{
-}
+Plugin::~Plugin() {}
 
 // ----------------------------------------------------------------------
 /*!

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include <spine/SmartMetPlugin.h>
 #include <spine/Reactor.h>
+#include <spine/SmartMetPlugin.h>
 
 namespace SmartMet
 {

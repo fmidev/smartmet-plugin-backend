@@ -81,7 +81,7 @@ void baseContentHandler(SmartMet::Spine::Reactor & /* theReactor */,
   }
   catch (...)
   {
-    throw SmartMet::Spine::Exception(BCP, "Operation failed!", NULL);
+    throw SmartMet::Spine::Exception::Trace(BCP, "Operation failed!");
   }
 }
 
@@ -108,7 +108,7 @@ void sleep(Reactor & /* theReactor */,
   }
   catch (...)
   {
-    throw SmartMet::Spine::Exception(BCP, "Operation failed!", NULL);
+    throw SmartMet::Spine::Exception::Trace(BCP, "Operation failed!");
   }
 }
 #endif
@@ -159,7 +159,7 @@ void Plugin::init()
     // Launch a new instance of Sputnik on network ItsNetworkAddress
     SmartMet::Engine::Sputnik::Engine *sputnik =
         reinterpret_cast<SmartMet::Engine::Sputnik::Engine *>(
-            itsReactor->getSingleton("Sputnik", (void *)NULL));
+            itsReactor->getSingleton("Sputnik", (void *)nullptr));
 
     // Start Sputnik engine in backend mode
     sputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
@@ -179,7 +179,7 @@ void Plugin::init()
   }
   catch (...)
   {
-    throw SmartMet::Spine::Exception(BCP, "Operation failed!", NULL);
+    throw SmartMet::Spine::Exception::Trace(BCP, "Operation failed!");
   }
 }
 

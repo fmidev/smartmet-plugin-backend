@@ -7,15 +7,12 @@
 #include "Plugin.h"
 
 #include <engines/sputnik/Engine.h>
-
+#include <macgyver/StringConversion.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMet.h>
-
-#include <libconfig.h++>
-
-#include <ctime>
 #include <iostream>
+#include <libconfig.h++>
 #include <sstream>
 #include <stdexcept>
 
@@ -28,22 +25,13 @@ namespace Backend
 // ----------------------------------------------------------------------
 /*!
  * \brief Format a time for HTTP output
- *
- * The output is generated with strftime using format
- * "%a,  %d  %b  %Y  %H:%M:%S" as adviced in the
- * man-pages for strftime.
  */
 // ----------------------------------------------------------------------
 
 std::string format_time(const ::time_t theTime)
 {
-  struct ::tm t;
-  gmtime_r(&theTime, &t);
-  const ::size_t MAXLEN = 100;
-  char buffer[MAXLEN];
-  ::size_t n = strftime(buffer, MAXLEN, "%a, %d %b %Y %H:%M:%S GMT", &t);
-  std::string ret(buffer, 0, n);
-  return ret;
+  auto t = boost::posix_time::from_time_t(theTime);
+  return Fmi::to_http_string(t);
 }
 
 // ----------------------------------------------------------------------
@@ -120,7 +108,7 @@ void sleep(Reactor & /* theReactor */,
 // ----------------------------------------------------------------------
 
 Plugin::Plugin(SmartMet::Spine::Reactor *theReactor, const char *theConfig)
-    : SmartMetPlugin(), itsModuleName("Backend"), itsConfig(theConfig)
+    : itsModuleName("Backend"), itsConfig(theConfig)
 {
   if (theReactor->getRequiredAPIVersion() != SMARTMET_API_VERSION)
     throw SmartMet::Spine::Exception(BCP, "Backend and Server API version mismatch");
@@ -159,7 +147,7 @@ void Plugin::init()
     // Launch a new instance of Sputnik on network ItsNetworkAddress
     SmartMet::Engine::Sputnik::Engine *sputnik =
         reinterpret_cast<SmartMet::Engine::Sputnik::Engine *>(
-            itsReactor->getSingleton("Sputnik", (void *)nullptr));
+            itsReactor->getSingleton("Sputnik", nullptr));
 
     // Start Sputnik engine in backend mode
     sputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
@@ -199,7 +187,7 @@ void Plugin::faviconHandler(Reactor & /* theReactor */,
   }
   else
   {
-    ::time_t expiration_time = time(0) + 7 * 24 * 3600;  // 7 days
+    ::time_t expiration_time = time(nullptr) + 7 * 24 * 3600;  // 7 days
     theResponse.setStatus(HTTP::Status::ok);
     theResponse.setHeader("Content-Type", "image/vnd.microsoft.icon");
     theResponse.setHeader("Expires", format_time(expiration_time));
@@ -217,8 +205,6 @@ void Plugin::shutdown()
 {
   std::cout << "  -- Shutdown requested (BackendPlugin)\n";
 }
-
-Plugin::~Plugin() {}
 
 // ----------------------------------------------------------------------
 /*!

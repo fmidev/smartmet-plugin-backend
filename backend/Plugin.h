@@ -20,7 +20,7 @@ class Plugin : public SmartMetPlugin
 {
  public:
   Plugin(Reactor* theReactor, const char* theConfig);
-  virtual ~Plugin();
+  virtual ~Plugin() = default;
 
   const std::string& getPluginName() const;
   int getRequiredAPIVersion() const;

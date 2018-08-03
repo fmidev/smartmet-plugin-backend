@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 18.4.7
+Version: 18.8.3
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,15 +12,15 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 18.4.7
+BuildRequires: smartmet-library-spine-devel >= 18.7.23
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 18.4.7
 BuildRequires: libconfig
 BuildRequires: boost-devel
 Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 18.4.7
-Requires: smartmet-library-spine >= 18.4.7
+Requires: smartmet-server >= 18.6.6
+Requires: smartmet-library-spine >= 18.7.23
 Requires: smartmet-engine-sputnik >= 18.4.7
 %if 0%{rhel} >= 7
 Requires: boost-system
@@ -51,6 +51,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Fri Aug  3 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.8.3-1.fmi
+- Silenced several code analysis warnings
+
+* Wed Jul 25 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.7.25-1.fmi
+- Prefer nullptr over NULL
+
 * Sat Apr  7 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.4.7-1.fmi
 - Upgrade to boost 1.66
 

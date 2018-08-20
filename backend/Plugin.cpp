@@ -86,7 +86,7 @@ void sleep(Reactor & /* theReactor */,
 {
   try
   {
-    unsigned long t = SmartMet::Spine::optional_unsigned_long(theRequest.getParameter("t"), 1);
+    auto t = SmartMet::Spine::optional_size(theRequest.getParameter("t"), 1);
 
     if (t > 0)
       ::sleep(t);
@@ -268,7 +268,7 @@ extern "C" SmartMetPlugin *create(SmartMet::Spine::Reactor *them, const char *co
 extern "C" void destroy(SmartMetPlugin *us)
 {
   // This will call 'Plugin::~Plugin()' since the destructor is virtual
-  delete us;
+  delete us;  // NOLINT(cppcoreguidelines-owning-memory)
 }
 
 // ======================================================================

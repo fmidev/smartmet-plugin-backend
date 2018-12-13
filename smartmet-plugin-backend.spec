@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 18.8.20
+Version: 18.12.13
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,16 +12,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 18.8.20
+BuildRequires: smartmet-library-spine-devel >= 18.12.4
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 18.7.25
+BuildRequires: smartmet-engine-sputnik-devel >= 18.12.4
 BuildRequires: libconfig
 BuildRequires: boost-devel
 Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 18.8.8
-Requires: smartmet-library-spine >= 18.8.20
-Requires: smartmet-engine-sputnik >= 18.7.25
+Requires: smartmet-server >= 18.11.8
+Requires: smartmet-library-spine >= 18.12.4
+Requires: smartmet-engine-sputnik >= 18.12.4
 %if 0%{rhel} >= 7
 Requires: boost-system
 %endif
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Thu Dec 13 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.12.13-1.fmi
+- Send "Backend paused" response if Sputnik has been paused, default is "SmartMet Server"
+
 * Mon Aug 20 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.8.20-1.fmi
 - Use optional_size instead of optional_unsigned_long to avoid integer conversions
 - Silenced a CodeChecker warning on extern "C" pointers not having owners

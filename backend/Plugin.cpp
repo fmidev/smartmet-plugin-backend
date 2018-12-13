@@ -5,8 +5,6 @@
 // ======================================================================
 
 #include "Plugin.h"
-
-#include <engines/sputnik/Engine.h>
 #include <macgyver/StringConversion.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
@@ -58,14 +56,17 @@ std::string read_file(const std::string &filename)
 // ----------------------------------------------------------------------
 
 // this is the content handler for URL /
-void baseContentHandler(SmartMet::Spine::Reactor & /* theReactor */,
-                        const SmartMet::Spine::HTTP::Request & /* theRequest */,
-                        SmartMet::Spine::HTTP::Response &theResponse)
+void Plugin::baseContentHandler(SmartMet::Spine::Reactor & /* theReactor */,
+                                const SmartMet::Spine::HTTP::Request & /* theRequest */,
+                                SmartMet::Spine::HTTP::Response &theResponse)
 {
   try
   {
     theResponse.setStatus(SmartMet::Spine::HTTP::Status::ok);
-    theResponse.setContent("SmartMet Server\n");
+    if (itsSputnik != nullptr && itsSputnik->isPaused())
+      theResponse.setContent("Sputnik paused");
+    else
+      theResponse.setContent("SmartMet Server");
   }
   catch (...)
   {
@@ -145,14 +146,14 @@ void Plugin::init()
     }
 
     // Launch a new instance of Sputnik on network ItsNetworkAddress
-    SmartMet::Engine::Sputnik::Engine *sputnik =
-        reinterpret_cast<SmartMet::Engine::Sputnik::Engine *>(
-            itsReactor->getSingleton("Sputnik", nullptr));
+    itsSputnik = reinterpret_cast<SmartMet::Engine::Sputnik::Engine *>(
+        itsReactor->getSingleton("Sputnik", nullptr));
 
     // Start Sputnik engine in backend mode
-    sputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
+    itsSputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
 
-    if (!itsReactor->addContentHandler(this, "/", boost::bind(&baseContentHandler, _1, _2, _3)))
+    if (!itsReactor->addContentHandler(
+            this, "/", boost::bind(&Plugin::baseContentHandler, this, _1, _2, _3)))
       throw SmartMet::Spine::Exception(BCP, "Failed to register base content handler");
 
 #ifndef NDEBUG

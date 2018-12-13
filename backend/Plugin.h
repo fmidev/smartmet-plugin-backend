@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <engines/sputnik/Engine.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMetPlugin.h>
 
@@ -37,10 +38,15 @@ class Plugin : public SmartMetPlugin
                       const HTTP::Request& theRequest,
                       HTTP::Response& theResponse);
 
+  void baseContentHandler(SmartMet::Spine::Reactor& /* theReactor */,
+                          const SmartMet::Spine::HTTP::Request& /* theRequest */,
+                          SmartMet::Spine::HTTP::Response& theResponse);
+
  private:
   const std::string itsModuleName;
   const std::string itsConfig;
   SmartMet::Spine::Reactor* itsReactor = nullptr;
+  SmartMet::Engine::Sputnik::Engine* itsSputnik = nullptr;
   std::string itsFavicon;
 
 };  // class Plugin

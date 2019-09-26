@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 18.12.13
+Version: 19.9.26
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,16 +12,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 18.12.4
+BuildRequires: smartmet-library-spine-devel >= 19.9.26
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 18.12.4
+BuildRequires: smartmet-engine-sputnik-devel >= 19.9.26
 BuildRequires: libconfig
 BuildRequires: boost-devel
 Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 18.11.8
-Requires: smartmet-library-spine >= 18.12.4
-Requires: smartmet-engine-sputnik >= 18.12.4
+Requires: smartmet-server >= 19.9.26
+Requires: smartmet-library-spine >= 19.9.26
+Requires: smartmet-engine-sputnik >= 19.9.26
 %if 0%{rhel} >= 7
 Requires: boost-system
 %endif
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Thu Sep 26 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.9.26-1.fmi
+- Added support for ASAN & TSAN builds
+
 * Thu Dec 13 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.12.13-1.fmi
 - Send "Backend paused" response if Sputnik has been paused, default is "SmartMet Server"
 

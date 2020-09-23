@@ -43,7 +43,7 @@ std::string read_file(const std::string &filename)
   std::string content;
   std::ifstream in(filename.c_str());
   if (!in)
-    throw SmartMet::Spine::Exception(BCP, "Failed to open '" + filename + "' for reading!");
+    throw Fmi::Exception(BCP, "Failed to open '" + filename + "' for reading!");
 
   content.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
   return content;
@@ -70,7 +70,7 @@ void Plugin::baseContentHandler(SmartMet::Spine::Reactor & /* theReactor */,
   }
   catch (...)
   {
-    throw SmartMet::Spine::Exception::Trace(BCP, "Operation failed!");
+    throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
 
@@ -97,7 +97,7 @@ void sleep(Reactor & /* theReactor */,
   }
   catch (...)
   {
-    throw SmartMet::Spine::Exception::Trace(BCP, "Operation failed!");
+    throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
 #endif
@@ -112,7 +112,7 @@ Plugin::Plugin(SmartMet::Spine::Reactor *theReactor, const char *theConfig)
     : itsModuleName("Backend"), itsConfig(theConfig)
 {
   if (theReactor->getRequiredAPIVersion() != SMARTMET_API_VERSION)
-    throw SmartMet::Spine::Exception(BCP, "Backend and Server API version mismatch");
+    throw Fmi::Exception(BCP, "Backend and Server API version mismatch");
 
   itsReactor = theReactor;
 }
@@ -154,21 +154,21 @@ void Plugin::init()
 
     if (!itsReactor->addContentHandler(
             this, "/", boost::bind(&Plugin::baseContentHandler, this, _1, _2, _3)))
-      throw SmartMet::Spine::Exception(BCP, "Failed to register base content handler");
+      throw Fmi::Exception(BCP, "Failed to register base content handler");
 
 #ifndef NDEBUG
     if (!itsReactor->addContentHandler(this, "/sleep", boost::bind(&sleep, _1, _2, _3)))
-      throw SmartMet::Spine::Exception(BCP, "Failed to register sleep content handler");
+      throw Fmi::Exception(BCP, "Failed to register sleep content handler");
 #endif
 
     // Add Favicon content handler
     if (!itsReactor->addContentHandler(
             this, "/favicon.ico", boost::bind(&Plugin::faviconHandler, this, _1, _2, _3)))
-      throw SmartMet::Spine::Exception(BCP, "Failed to register favicon.ico content handler");
+      throw Fmi::Exception(BCP, "Failed to register favicon.ico content handler");
   }
   catch (...)
   {
-    throw SmartMet::Spine::Exception::Trace(BCP, "Operation failed!");
+    throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
 

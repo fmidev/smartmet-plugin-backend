@@ -9,6 +9,7 @@
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMet.h>
+#include <boost/filesystem/path.hpp>
 #include <iostream>
 #include <libconfig.h++>
 #include <sstream>
@@ -133,6 +134,11 @@ void Plugin::init()
     {
       // Read the configuration file
       libconfig::Config config;
+
+      // Enable sensible relative include paths
+      boost::filesystem::path p = itsConfig;
+      p.remove_filename();
+      config.setIncludeDir(p.c_str());
 
       config.readFile(itsConfig.c_str());
 

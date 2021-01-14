@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 20.10.6
+Version: 21.1.14
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,16 +12,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 20.9.23
+BuildRequires: smartmet-library-spine-devel >= 21.1.14
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 20.8.23
+BuildRequires: smartmet-engine-sputnik-devel >= 21.1.14
 BuildRequires: libconfig
 BuildRequires: boost169-devel
 Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 20.9.23
-Requires: smartmet-library-spine >= 20.9.23
-Requires: smartmet-engine-sputnik >= 20.8.23
+Requires: smartmet-server >= 21.1.14
+Requires: smartmet-library-spine >= 21.1.14
+Requires: smartmet-engine-sputnik >= 21.1.14
 %if 0%{rhel} >= 7
 Requires: boost169-system
 %endif
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Thu Jan 14 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.1.14-1.fmi
+- Repackaged smartmet to resolve debuginfo issues
+
 * Tue Oct  6 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.10.6-1.fmi
 - Enable sensible relative libconfig include paths
 

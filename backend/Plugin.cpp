@@ -5,11 +5,11 @@
 // ======================================================================
 
 #include "Plugin.h"
+#include <boost/filesystem/path.hpp>
 #include <macgyver/StringConversion.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMet.h>
-#include <boost/filesystem/path.hpp>
 #include <iostream>
 #include <libconfig.h++>
 #include <sstream>
@@ -57,15 +57,19 @@ std::string read_file(const std::string &filename)
 // ----------------------------------------------------------------------
 
 // this is the content handler for URL /
-void Plugin::baseContentHandler(SmartMet::Spine::Reactor & /* theReactor */,
+void Plugin::baseContentHandler(SmartMet::Spine::Reactor &theReactor,
                                 const SmartMet::Spine::HTTP::Request & /* theRequest */,
                                 SmartMet::Spine::HTTP::Response &theResponse)
 {
   try
   {
     theResponse.setStatus(SmartMet::Spine::HTTP::Status::ok);
-    if (itsSputnik != nullptr && itsSputnik->isPaused())
-      theResponse.setContent("Sputnik paused");
+    if (theReactor.isShutdownRequested())
+      theResponse.setContent("SmartMet Server shutting down");
+    else if (itsSputnik != nullptr && itsSputnik->isPaused())
+      theResponse.setContent("SmartMet Server paused");
+    else if (theReactor.isInitializing())
+      theResponse.setContent("SmartMet Server initializing");
     else
       theResponse.setContent("SmartMet Server");
   }

@@ -21,18 +21,18 @@ class Plugin : public SmartMetPlugin
 {
  public:
   Plugin(Reactor* theReactor, const char* theConfig);
-  virtual ~Plugin() = default;
+  ~Plugin() override = default;
 
-  const std::string& getPluginName() const;
-  int getRequiredAPIVersion() const;
-  bool queryIsFast(const HTTP::Request& theRequest) const;
+  const std::string& getPluginName() const override;
+  int getRequiredAPIVersion() const override;
+  bool queryIsFast(const HTTP::Request& theRequest) const override;
 
  protected:
-  void init();
-  void shutdown();
+  void init() override;
+  void shutdown() override;
   void requestHandler(Reactor& theReactor,
                       const HTTP::Request& theRequest,
-                      HTTP::Response& theResponse);
+                      HTTP::Response& theResponse) override;
 
   void faviconHandler(Reactor& theReactor,
                       const HTTP::Request& theRequest,

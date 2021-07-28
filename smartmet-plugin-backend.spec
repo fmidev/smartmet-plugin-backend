@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 21.5.19
+Version: 21.7.28
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,15 +12,15 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 21.5.19
+BuildRequires: smartmet-library-spine-devel >= 21.7.28
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 21.4.19
 BuildRequires: libconfig
 BuildRequires: boost169-devel
 Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 21.1.14
-Requires: smartmet-library-spine >= 21.5.19
+Requires: smartmet-server >= 21.6.3
+Requires: smartmet-library-spine >= 21.7.28
 Requires: smartmet-engine-sputnik >= 21.4.19
 %if 0%{rhel} >= 7
 Requires: boost169-system
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Wed Jul 28 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.7.28-1.fmi
+- Silenced compiler warnings
+
 * Wed May 19 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.5.19-1.fmi
 - Print whether the server is starting, shutting down, paused or fully functional for root URL queries
 

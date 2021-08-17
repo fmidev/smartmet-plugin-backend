@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 21.7.28
+Version: 21.8.17
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,16 +12,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 21.7.28
+BuildRequires: smartmet-library-spine-devel >= 21.8.17
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 21.4.19
+BuildRequires: smartmet-engine-sputnik-devel >= 21.8.17
 BuildRequires: libconfig
 BuildRequires: boost169-devel
 Requires: libconfig
 Requires: protobuf
 Requires: smartmet-server >= 21.6.3
-Requires: smartmet-library-spine >= 21.7.28
-Requires: smartmet-engine-sputnik >= 21.4.19
+Requires: smartmet-library-spine >= 21.8.17
+Requires: smartmet-engine-sputnik >= 21.8.17
 %if 0%{rhel} >= 7
 Requires: boost169-system
 %endif
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Tue Aug 17 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.8.17-1.fmi
+- Use the new shutdown API
+
 * Wed Jul 28 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.7.28-1.fmi
 - Silenced compiler warnings
 

@@ -64,7 +64,7 @@ void Plugin::baseContentHandler(SmartMet::Spine::Reactor &theReactor,
   try
   {
     theResponse.setStatus(SmartMet::Spine::HTTP::Status::ok);
-    if (theReactor.isShutdownRequested())
+    if (Reactor::isShuttingDown())
       theResponse.setContent("SmartMet Server shutting down");
     else if (itsSputnik != nullptr && itsSputnik->isPaused())
       theResponse.setContent("SmartMet Server paused");

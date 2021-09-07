@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 21.8.31
+Version: 21.9.7
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,15 +12,13 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-spine-devel >= 21.8.30
+BuildRequires: smartmet-library-spine-devel >= 21.9.7
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 21.8.17
-BuildRequires: libconfig
 BuildRequires: boost169-devel
-Requires: libconfig
 Requires: protobuf
-Requires: smartmet-server >= 21.6.3
-Requires: smartmet-library-spine >= 21.8.30
+Requires: smartmet-server >= 21.9.7
+Requires: smartmet-library-spine >= 21.9.7
 Requires: smartmet-engine-sputnik >= 21.8.17
 %if 0%{rhel} >= 7
 Requires: boost169-system
@@ -51,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Tue Sep  7 2021 Andris Pavēnis <andris.pavenis@fmi.fi> - 21.9.7-1.fmi
+- Repackaged due to dependency changes (libconfig -> libconfig17)
+
 * Tue Aug 31 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.8.31-1.fmi
 - Repackaged due to Spine ABI changes
 

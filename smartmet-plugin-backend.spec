@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 21.9.8
+Version: 21.9.27
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Mon Sep 27 2021 Andris Pavēnis <andris.pavenis@fmi.fi> 21.9.27-1.fmi
+- Repackage due to dependency change (libgonfig++)
+
 * Wed Sep  8 2021 Andris Pavēnis <andris.pavenis@fmi.fi> - 21.9.8-1.fmi
 - Require libconfig17 explicitly in spec file
 

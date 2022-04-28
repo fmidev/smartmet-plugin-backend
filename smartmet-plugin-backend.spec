@@ -13,14 +13,14 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.2
-BuildRequires: smartmet-library-spine-devel >= 21.9.7
+BuildRequires: smartmet-library-spine-devel >= 22.4.26
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 21.8.17
 BuildRequires: boost169-devel
 Requires: protobuf
 Requires: libconfig17 >= 1.7.2
 Requires: smartmet-server >= 21.9.7
-Requires: smartmet-library-spine >= 21.9.7
+Requires: smartmet-library-spine >= 22.4.26
 Requires: smartmet-engine-sputnik >= 21.8.17
 %if 0%{rhel} >= 7
 Requires: boost169-system

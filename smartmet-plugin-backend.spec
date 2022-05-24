@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 22.4.28
+Version: 22.5.24
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -12,16 +12,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: libconfig17-devel >= 1.7.2
-BuildRequires: smartmet-library-spine-devel >= 22.4.26
+BuildRequires: libconfig17-devel >= 1.7.3
+BuildRequires: smartmet-library-spine-devel >= 22.5.24
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 21.8.17
+BuildRequires: smartmet-engine-sputnik-devel >= 22.5.24
 BuildRequires: boost169-devel
 Requires: protobuf
-Requires: libconfig17 >= 1.7.2
-Requires: smartmet-server >= 21.9.7
-Requires: smartmet-library-spine >= 22.4.26
-Requires: smartmet-engine-sputnik >= 21.8.17
+Requires: libconfig17 >= 1.7.3
+Requires: smartmet-server >= 22.5.16
+Requires: smartmet-library-spine >= 22.5.24
+Requires: smartmet-engine-sputnik >= 22.5.24
 %if 0%{rhel} >= 7
 Requires: boost169-system
 %endif
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Tue May 24 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.24-1.fmi
+- Repackaged due to NFmiArea ABI changes
+
 * Thu Apr 28 2022 Andris Pavenis <andris.pavenis@fmi.fi> 22.4.28-1.fmi
 - Repackage due to SmartMet::Spine::Reactor ABI changes
 

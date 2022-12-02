@@ -58,11 +58,15 @@ std::string read_file(const std::string &filename)
 
 // this is the content handler for URL /
 void Plugin::baseContentHandler(SmartMet::Spine::Reactor &theReactor,
-                                const SmartMet::Spine::HTTP::Request & /* theRequest */,
+                                const SmartMet::Spine::HTTP::Request &theRequest,
                                 SmartMet::Spine::HTTP::Response &theResponse)
 {
   try
   {
+    if (checkRequest(theRequest, theResponse, false)) {
+        return;
+    }
+
     theResponse.setStatus(SmartMet::Spine::HTTP::Status::ok);
     if (Reactor::isShuttingDown())
       theResponse.setContent("SmartMet Server shutting down");
@@ -190,9 +194,12 @@ void Plugin::init()
 // ----------------------------------------------------------------------
 
 void Plugin::faviconHandler(Reactor & /* theReactor */,
-                            const HTTP::Request & /* theRequest */,
+                            const HTTP::Request &theRequest,
                             HTTP::Response &theResponse)
 {
+  if (checkRequest(theRequest, theResponse, false)) {
+    return;
+  }
   if (itsFavicon.empty())
   {
     theResponse.setStatus(HTTP::Status::no_content);

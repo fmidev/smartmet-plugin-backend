@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 22.12.2
+Version: 23.1.26
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -22,15 +22,15 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 22.12.2
+BuildRequires: smartmet-library-spine-devel >= 23.1.16
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 22.6.17
+BuildRequires: smartmet-engine-sputnik-devel >= 22.11.25
 BuildRequires: %{smartmet_boost}-devel
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 22.5.16
-Requires: smartmet-library-spine >= 22.12.2
-Requires: smartmet-engine-sputnik >= 22.6.17
+Requires: smartmet-server >= 23.1.10
+Requires: smartmet-library-spine >= 23.1.16
+Requires: smartmet-engine-sputnik >= 22.11.25
 %if 0%{rhel} >= 7
 Requires: %{smartmet_boost}-system
 %endif
@@ -60,6 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Thu Jan 26 2023 Mika Heiskanen <mika.heiskanen@fmi.fi> - 23.1.26-1.fmi
+- Silenced CodeChecker warnings
+
 * Fri Dec  2 2022 Andris Pavēnis <andris.pavenis@fmi.fi> 22.12.2-1.fmi
 - Check HTTP request method checking and support OPTIONS method
 

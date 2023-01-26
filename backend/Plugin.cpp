@@ -63,8 +63,9 @@ void Plugin::baseContentHandler(SmartMet::Spine::Reactor &theReactor,
 {
   try
   {
-    if (checkRequest(theRequest, theResponse, false)) {
-        return;
+    if (checkRequest(theRequest, theResponse, false))
+    {
+      return;
     }
 
     theResponse.setStatus(SmartMet::Spine::HTTP::Status::ok);
@@ -82,34 +83,6 @@ void Plugin::baseContentHandler(SmartMet::Spine::Reactor &theReactor,
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Reply to sleep requests
- */
-// ----------------------------------------------------------------------
-
-#ifndef NDEBUG
-void sleep(Reactor & /* theReactor */,
-           const SmartMet::Spine::HTTP::Request &theRequest,
-           SmartMet::Spine::HTTP::Response &theResponse)
-{
-  try
-  {
-    auto t = SmartMet::Spine::optional_size(theRequest.getParameter("t"), 1);
-
-    if (t > 0)
-      ::sleep(t);
-
-    theResponse.setStatus(SmartMet::Spine::HTTP::Status::ok);
-    theResponse.setContent("SmartMet Server\n");
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
-  }
-}
-#endif
 
 // ----------------------------------------------------------------------
 /*!
@@ -167,18 +140,22 @@ void Plugin::init()
     // Start Sputnik engine in backend mode
     itsSputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
 
-    if (!itsReactor->addContentHandler(
-            this, "/", boost::bind(&Plugin::baseContentHandler, this, _1, _2, _3)))
+    if (!itsReactor->addContentHandler(this,
+                                       "/",
+                                       [this](Spine::Reactor &theReactor,
+                                              const Spine::HTTP::Request &theRequest,
+                                              Spine::HTTP::Response &theResponse) {
+                                         callRequestHandler(theReactor, theRequest, theResponse);
+                                       }))
       throw Fmi::Exception(BCP, "Failed to register base content handler");
 
-#ifndef NDEBUG
-    if (!itsReactor->addContentHandler(this, "/sleep", boost::bind(&sleep, _1, _2, _3)))
-      throw Fmi::Exception(BCP, "Failed to register sleep content handler");
-#endif
-
     // Add Favicon content handler
-    if (!itsReactor->addContentHandler(
-            this, "/favicon.ico", boost::bind(&Plugin::faviconHandler, this, _1, _2, _3)))
+    if (!itsReactor->addContentHandler(this,
+                                       "/favicon.ico",
+                                       [this](Spine::Reactor &theReactor,
+                                              const Spine::HTTP::Request &theRequest,
+                                              Spine::HTTP::Response &theResponse)
+                                       { faviconHandler(theReactor, theRequest, theResponse); }))
       throw Fmi::Exception(BCP, "Failed to register favicon.ico content handler");
   }
   catch (...)
@@ -197,7 +174,8 @@ void Plugin::faviconHandler(Reactor & /* theReactor */,
                             const HTTP::Request &theRequest,
                             HTTP::Response &theResponse)
 {
-  if (checkRequest(theRequest, theResponse, false)) {
+  if (checkRequest(theRequest, theResponse, false))
+  {
     return;
   }
   if (itsFavicon.empty())
@@ -206,7 +184,7 @@ void Plugin::faviconHandler(Reactor & /* theReactor */,
   }
   else
   {
-    ::time_t expiration_time = time(nullptr) + 7 * 24 * 3600;  // 7 days
+    ::time_t expiration_time = time(nullptr) + 7UL * 24UL * 3600UL;  // 7 days
     theResponse.setStatus(HTTP::Status::ok);
     theResponse.setHeader("Content-Type", "image/vnd.microsoft.icon");
     theResponse.setHeader("Expires", format_time(expiration_time));

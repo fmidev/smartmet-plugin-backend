@@ -43,10 +43,6 @@ class Plugin : public SmartMetPlugin
                       const HTTP::Request& theRequest,
                       HTTP::Response& theResponse);
 
-  void baseContentHandler(SmartMet::Spine::Reactor& /* theReactor */,
-                          const SmartMet::Spine::HTTP::Request& /* theRequest */,
-                          SmartMet::Spine::HTTP::Response& theResponse);
-
  private:
   const std::string itsModuleName;
   const std::string itsConfig;

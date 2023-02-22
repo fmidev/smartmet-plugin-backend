@@ -57,9 +57,9 @@ std::string read_file(const std::string &filename)
 // ----------------------------------------------------------------------
 
 // this is the content handler for URL /
-void Plugin::baseContentHandler(SmartMet::Spine::Reactor &theReactor,
-                                const SmartMet::Spine::HTTP::Request &theRequest,
-                                SmartMet::Spine::HTTP::Response &theResponse)
+void Plugin::requestHandler(SmartMet::Spine::Reactor &theReactor,
+                            const SmartMet::Spine::HTTP::Request &theRequest,
+                            SmartMet::Spine::HTTP::Response &theResponse)
 {
   try
   {
@@ -223,18 +223,6 @@ const std::string &Plugin::getPluginName() const
 int Plugin::getRequiredAPIVersion() const
 {
   return SMARTMET_API_VERSION;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * \brief requestHandler is a dummy function for this plugin
- */
-// ----------------------------------------------------------------------
-
-void Plugin::requestHandler(SmartMet::Spine::Reactor & /* theReactor */,
-                            const SmartMet::Spine::HTTP::Request & /* theRequest */,
-                            SmartMet::Spine::HTTP::Response & /* theResponse */)
-{
 }
 
 // ----------------------------------------------------------------------

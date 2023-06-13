@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 23.2.22
+Version: 23.6.13
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -22,15 +22,15 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 23.2.8
+BuildRequires: smartmet-library-spine-devel >= 23.6.13
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 22.11.25
+BuildRequires: smartmet-engine-sputnik-devel >= 23.3.6
 BuildRequires: %{smartmet_boost}-devel
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 23.2.1
-Requires: smartmet-library-spine >= 23.2.8
-Requires: smartmet-engine-sputnik >= 22.11.25
+Requires: smartmet-server >= 23.5.19
+Requires: smartmet-library-spine >= 23.6.13
+Requires: smartmet-engine-sputnik >= 23.3.6
 %if 0%{rhel} >= 7
 Requires: %{smartmet_boost}-system
 %endif
@@ -60,6 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 
 %changelog
+* Tue Jun 13 2023 Mika Heiskanen <mika.heiskanen@fmi.fi> - 23.6.13-1.fmi
+- Support internal and environment variables in configuration files
+
 * Wed Feb 22 2023 Mika Heiskanen <mika.heiskanen@fmi.fi> - 23.2.22-1.fmi
 - Fixed content handler registration
 

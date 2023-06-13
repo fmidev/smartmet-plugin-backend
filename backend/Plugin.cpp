@@ -7,6 +7,7 @@
 #include "Plugin.h"
 #include <boost/filesystem/path.hpp>
 #include <macgyver/StringConversion.h>
+#include <spine/ConfigTools.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMet.h>
@@ -123,6 +124,7 @@ void Plugin::init()
       config.setIncludeDir(p.c_str());
 
       config.readFile(itsConfig.c_str());
+      Spine::expandVariables(config);
 
       // Favicon.ico location, if any
       std::string favicon;

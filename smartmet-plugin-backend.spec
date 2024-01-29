@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 23.12.5
+Version: 24.1.9
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -28,7 +28,7 @@ BuildRequires: smartmet-engine-sputnik-devel >= 23.7.28
 BuildRequires: %{smartmet_boost}-devel
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 23.12.5
+Requires: smartmet-server >= 24.1.29
 Requires: smartmet-library-spine >= 23.12.5
 Requires: smartmet-engine-sputnik >= 23.7.28
 %if 0%{rhel} >= 7
@@ -58,8 +58,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(0775,root,root,0775)
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
+%defattr(0644,root,root,0755)
+%config(noreplace) %{_sysconfdir}/smartmet/smartmet-backend.env
+%{_unitdir}/smartmet-backend.service
 
 %changelog
+* Mon Jan 29 2024 Mika Heiskanen <mheiskan@rhel8.dev.fmi.fi> - 24.1.9-1.fmi
+- Added systemd files
+
 * Tue Dec  5 2023 Mika Heiskanen <mika.heiskanen@fmi.fi> - 23.12.5-1.fmi
 - Repackaged due to an ABI change in SmartMetPlugin
 

@@ -15,7 +15,7 @@ After=smartmet-data.mount
 Type=simple
 
 EnvironmentFile=/etc/smartmet/smartmet-backend.env
-ExecStart=/usr/sbin/smartmetd --configfile $CONFIGFILE
+ExecStart=/usr/sbin/smartmetd --port=${PORT} --configfile ${CONFIGFILE}
 
 LimitCORE=infinity
 # LimitCORE=0

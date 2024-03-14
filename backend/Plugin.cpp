@@ -30,7 +30,7 @@ namespace Backend
 
 std::string format_time(const ::time_t theTime)
 {
-  auto t = boost::posix_time::from_time_t(theTime);
+  auto t = Fmi::date_time::from_time_t(theTime);
   return Fmi::to_http_string(t);
 }
 

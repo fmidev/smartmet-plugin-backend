@@ -31,12 +31,20 @@ Requires: libconfig17 >= 1.7.3
 Requires: smartmet-server >= 24.2.22
 Requires: smartmet-library-spine >= 24.2.8
 Requires: smartmet-engine-sputnik >= 24.2.23
+
 %if 0%{rhel} >= 7
 Requires: %{smartmet_boost}-system
 %endif
 Provides: %{SPECNAME}
 Obsoletes: smartmet-brainstorm-backend < 16.11.1
 Obsoletes: smartmet-brainstorm-backend-debuginfo < 16.11.1
+
+%if 0%{rhel} >= 9
+BuildRequires: systemd-rpm-macros
+Requires(preun): systemd
+Requires(post): systemd
+Requires(postun): systemd
+%endif
 
 %description
 SmartMet backend plugin

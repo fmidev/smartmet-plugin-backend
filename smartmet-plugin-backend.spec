@@ -28,9 +28,9 @@ BuildRequires: smartmet-engine-sputnik-devel >= 24.2.23
 BuildRequires: %{smartmet_boost}-devel
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 24.2.22
-Requires: smartmet-library-spine >= 24.2.8
-Requires: smartmet-engine-sputnik >= 24.2.23
+Requires: smartmet-server >= 24.5.6
+Requires: smartmet-library-spine >= 24.5.6
+Requires: smartmet-engine-sputnik >= 24.5.7
 
 %if 0%{rhel} >= 7
 Requires: %{smartmet_boost}-system

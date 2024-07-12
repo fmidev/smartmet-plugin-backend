@@ -5,7 +5,7 @@
 // ======================================================================
 
 #include "Plugin.h"
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include <macgyver/StringConversion.h>
 #include <spine/ConfigTools.h>
 #include <spine/Convenience.h>
@@ -119,7 +119,7 @@ void Plugin::init()
       libconfig::Config config;
 
       // Enable sensible relative include paths
-      boost::filesystem::path p = itsConfig;
+      std::filesystem::path p = itsConfig;
       p.remove_filename();
       config.setIncludeDir(p.c_str());
 

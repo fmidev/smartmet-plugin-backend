@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 24.5.7
+Version: 24.7.12
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -22,15 +22,15 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 24.2.8
+BuildRequires: smartmet-library-spine-devel >= 24.7.12
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 24.2.23
+BuildRequires: smartmet-engine-sputnik-devel >= 24.7.12
 BuildRequires: %{smartmet_boost}-devel
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 24.5.6
-Requires: smartmet-library-spine >= 24.5.6
-Requires: smartmet-engine-sputnik >= 24.5.7
+Requires: smartmet-server >= 24.7.12
+Requires: smartmet-library-spine >= 24.7.12
+Requires: smartmet-engine-sputnik >= 24.7.12
 
 %if 0%{rhel} >= 7
 Requires: %{smartmet_boost}-system
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Fri Jul 12 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.7.12-1.fmi
+- Replace many boost library types with C++ standard library ones
+
 * Tue May  7 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.5.7-1.fmi
 - Use Date library (https://github.com/HowardHinnant/date) instead of boost date_time
 

@@ -6,6 +6,7 @@
 
 #include "Plugin.h"
 #include <filesystem>
+#include <functional>
 #include <macgyver/StringConversion.h>
 #include <spine/ConfigTools.h>
 #include <spine/Convenience.h>
@@ -107,7 +108,7 @@ Plugin::Plugin(SmartMet::Spine::Reactor *theReactor, const char *theConfig)
 // ----------------------------------------------------------------------
 void Plugin::init()
 {
-  using namespace boost::placeholders;
+  namespace p = std::placeholders;
   try
   {
     // We allow the configuration file to be unset,
@@ -159,12 +160,182 @@ void Plugin::init()
                                               Spine::HTTP::Response &theResponse)
                                        { faviconHandler(theReactor, theRequest, theResponse); }))
       throw Fmi::Exception(BCP, "Failed to register favicon.ico content handler");
+
+    // Add cluster info admin handler
+    if (!itsReactor->addAdminCustomRequestHandler(
+          this,
+          "clusterinfo",
+          false,
+          std::bind(&Plugin::requestClusterInfo, this, p::_2, p::_3),
+          "Request cluster info"))
+    {
+      throw Fmi::Exception(BCP, "Failed to register clusterinfo admin request handler");
+    }
+
+    // Add continue admin handler
+    if (!itsReactor->addAdminStringRequestHandler(
+          this,
+          "continue",
+          true,
+          std::bind(&Plugin::setContinue, this, p::_2),
+          "Continue Sputnik"))
+    {
+      throw Fmi::Exception(BCP, "Failed to register continue admin request handler");
+    }
+
+    // Add pause admin handler
+    if (!itsReactor->addAdminStringRequestHandler(
+          this,
+          "pause",
+          true,
+          std::bind(&Plugin::setPause, this, p::_2),
+          "Pause Sputnik"))
+    {
+      throw Fmi::Exception(BCP, "Failed to register pause admin request handler");
+    }
+
+    // Add backend info admin handler
+    if (!itsReactor->addAdminTableRequestHandler(
+          this,
+          "backendinfo",
+          false,
+          std::bind(&Plugin::getBackendInfo, this, p::_2),
+          "Get backend info"))
+    {
+      throw Fmi::Exception(BCP, "Failed to register backendinfo admin request handler");
+    }
   }
   catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Get backend info
+ */
+// ----------------------------------------------------------------------
+
+std::unique_ptr<Table> Plugin::getBackendInfo(const HTTP::Request& theRequest)
+try
+{
+  std::string service = Spine::optional_string(theRequest.getParameter("service"), "");
+  std::unique_ptr<Table> result = itsSputnik->backends(service);
+  return result;
+}
+catch (...)
+{
+  throw Fmi::Exception::Trace(BCP, "Operation failed!");
+}
+
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Request cluster info
+ */
+// ----------------------------------------------------------------------
+
+void Plugin::requestClusterInfo(const HTTP::Request& theRequest,
+                                HTTP::Response& theResponse) const
+try
+{
+  std::ostringstream out;
+  itsSputnik->status(out);
+
+  // Make MIME header
+  std::string mime("text/html; charset=UTF-8");
+  theResponse.setHeader("Content-Type", mime);
+
+  // Set content
+  std::string ret = "<html><head><title>SmartMet Admin</title></head><body>";
+  ret += out.str();
+  ret += "</body></html>";
+  theResponse.setContent(ret);
+  theResponse.setStatus(HTTP::Status::ok);
+}
+catch (...)
+{
+  throw Fmi::Exception::Trace(BCP, "Operation failed!");
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set continue
+ */
+// ----------------------------------------------------------------------
+
+std::string Plugin::setContinue(const HTTP::Request& theRequest)
+try
+{
+  // Optional deadline or duration:
+
+  auto time_opt = theRequest.getParameter("time");
+  auto duration_opt = theRequest.getParameter("duration");
+
+  if (time_opt)
+  {
+    auto deadline = Fmi::TimeParser::parse(*time_opt);
+    itsSputnik->setPauseUntil(deadline);
+    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+  }
+  else if (duration_opt)
+  {
+    auto duration = Fmi::TimeParser::parse_duration(*duration_opt);
+    auto deadline = Fmi::SecondClock::universal_time() + duration;
+    itsSputnik->setPauseUntil(deadline);
+    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+  }
+  else
+  {
+    itsSputnik->setContinue();
+    return "Sputnik continue request made";
+  }
+}
+catch (...)
+{
+  throw Fmi::Exception::Trace(BCP, "Operation failed!");
+}
+
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set pause
+ */
+// ----------------------------------------------------------------------
+
+std::string Plugin::setPause(const HTTP::Request& theRequest)
+try
+{
+  // Optional deadline or duration:
+
+  auto time_opt = theRequest.getParameter("time");
+  auto duration_opt = theRequest.getParameter("duration");
+
+  if (time_opt)
+  {
+    auto deadline = Fmi::TimeParser::parse(*time_opt);
+    itsSputnik->setPauseUntil(deadline);
+    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+  }
+  else if (duration_opt)
+  {
+    auto duration = Fmi::TimeParser::parse_duration(*duration_opt);
+    auto deadline = Fmi::SecondClock::universal_time() + duration;
+    itsSputnik->setPauseUntil(deadline);
+    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+  }
+  else
+  {
+    itsSputnik->setPause();
+    return "Paused Sputnik until a continue request arrives";
+  }
+}
+catch (...)
+{
+  throw Fmi::Exception::Trace(BCP, "Operation failed!");
+}
+
 
 // ----------------------------------------------------------------------
 /*!

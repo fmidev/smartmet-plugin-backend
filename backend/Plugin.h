@@ -9,6 +9,7 @@
 #include <engines/sputnik/Engine.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMetPlugin.h>
+#include <spine/Table.h>
 
 namespace SmartMet
 {
@@ -44,6 +45,11 @@ class Plugin : public SmartMetPlugin
                       HTTP::Response& theResponse);
 
  private:
+  std::unique_ptr<Table> getBackendInfo(const HTTP::Request& theRequest);
+  void requestClusterInfo(const HTTP::Request& theRequest, HTTP::Response& theResponse) const;
+  std::string setContinue(const HTTP::Request& theRequest);
+  std::string setPause(const HTTP::Request& theRequest);
+
   const std::string itsModuleName;
   const std::string itsConfig;
   SmartMet::Spine::Reactor* itsReactor = nullptr;

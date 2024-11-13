@@ -3,7 +3,7 @@
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
 Version: 24.11.13
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
 URL: https://github.com/fmidev/smartmet-plugin-backend
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Wed Nov 13 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.11.13-2.fmi
+- Fix admin request name (backendinfo->backends)
+
 * Wed Nov 13 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.11.13-1.fmi
 - Handle sputnik related admin requests
 

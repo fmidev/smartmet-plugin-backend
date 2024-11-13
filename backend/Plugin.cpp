@@ -197,12 +197,12 @@ void Plugin::init()
     // Add backend info admin handler
     if (!itsReactor->addAdminTableRequestHandler(
           this,
-          "backendinfo",
+          "backends",
           false,
           std::bind(&Plugin::getBackendInfo, this, p::_2),
           "Get backend info"))
     {
-      throw Fmi::Exception(BCP, "Failed to register backendinfo admin request handler");
+      throw Fmi::Exception(BCP, "Failed to register backends admin request handler");
     }
   }
   catch (...)

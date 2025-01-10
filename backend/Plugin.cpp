@@ -161,11 +161,13 @@ void Plugin::init()
                                        { faviconHandler(theReactor, theRequest, theResponse); }))
       throw Fmi::Exception(BCP, "Failed to register favicon.ico content handler");
 
+    using AdminRequestAccess = SmartMet::Spine::Reactor::AdminRequestAccess;
+
     // Add cluster info admin handler
     if (!itsReactor->addAdminCustomRequestHandler(
           this,
           "clusterinfo",
-          false,
+          AdminRequestAccess::Public,
           std::bind(&Plugin::requestClusterInfo, this, p::_2, p::_3),
           "Request cluster info"))
     {
@@ -176,7 +178,7 @@ void Plugin::init()
     if (!itsReactor->addAdminStringRequestHandler(
           this,
           "continue",
-          true,
+          AdminRequestAccess::RequiresAuthentication,
           std::bind(&Plugin::setContinue, this, p::_2),
           "Continue Sputnik"))
     {
@@ -187,7 +189,7 @@ void Plugin::init()
     if (!itsReactor->addAdminStringRequestHandler(
           this,
           "pause",
-          true,
+          AdminRequestAccess::RequiresAuthentication,
           std::bind(&Plugin::setPause, this, p::_2),
           "Pause Sputnik"))
     {
@@ -198,7 +200,7 @@ void Plugin::init()
     if (!itsReactor->addAdminTableRequestHandler(
           this,
           "backends",
-          false,
+          AdminRequestAccess::Public,
           std::bind(&Plugin::getBackendInfo, this, p::_2),
           "Get backend info"))
     {

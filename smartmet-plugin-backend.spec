@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 25.1.10
+Version: 25.1.17
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Fri Jan 17 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.1.17-1.fmi
+- Hide internal information from /info responses
+
 * Fri Jan 10 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.1.10-1.fmi
 - Admin/info request update
 

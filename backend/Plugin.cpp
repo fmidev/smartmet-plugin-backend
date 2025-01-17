@@ -168,7 +168,7 @@ void Plugin::init()
           this,
           "clusterinfo",
           AdminRequestAccess::Public,
-          std::bind(&Plugin::requestClusterInfo, this, p::_2, p::_3),
+          std::bind(&Plugin::requestClusterInfo, this, p::_1, p::_2, p::_3),
           "Request cluster info"))
     {
       throw Fmi::Exception(BCP, "Failed to register clusterinfo admin request handler");
@@ -238,12 +238,16 @@ catch (...)
  */
 // ----------------------------------------------------------------------
 
-void Plugin::requestClusterInfo(const HTTP::Request& theRequest,
+void Plugin::requestClusterInfo(Spine::Reactor& theReactor,
+                                const HTTP::Request& theRequest,
                                 HTTP::Response& theResponse) const
 try
 {
+  const std::optional<std::string> adminUri = theReactor.getAdminUri();
+  const bool full = adminUri && theRequest.getResource() == *adminUri;
+
   std::ostringstream out;
-  itsSputnik->status(out);
+  itsSputnik->status(out, full);
 
   // Make MIME header
   std::string mime("text/html; charset=UTF-8");

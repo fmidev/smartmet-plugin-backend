@@ -2,8 +2,8 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 24.11.13
-Release: 2%{?dist}.fmi
+Version: 25.1.17
+Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
 URL: https://github.com/fmidev/smartmet-plugin-backend
@@ -19,15 +19,15 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 25.1.10
+BuildRequires: smartmet-library-spine-devel >= 25.1.17
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 24.11.8
+BuildRequires: smartmet-engine-sputnik-devel >= 25.1.17
 BuildRequires: %{smartmet_boost}-devel
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
 Requires: smartmet-server >= 24.11.8
-Requires: smartmet-library-spine >= 25.1.10
-Requires: smartmet-engine-sputnik >= 24.8.7
+Requires: smartmet-library-spine >= 25.1.17
+Requires: smartmet-engine-sputnik >= 25.1.17
 
 %if 0%{rhel} >= 7
 Requires: %{smartmet_boost}-system
@@ -68,6 +68,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Fri Jan 17 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.1.17-1.fmi
+- Hide internal information from /info responses
+
+* Fri Jan 10 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.1.10-1.fmi
+- Admin/info request update
+
 * Wed Nov 13 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.11.13-2.fmi
 - Fix admin request name (backendinfo->backends)
 

@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 25.8.20
+Version: 25.8.21
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -72,6 +72,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Thu Aug 21 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.8.21-1.fmi
+- smartmet-backend.service: rename environment variable and increase stop timeout to 35 seconds
+
 * Wed Aug 20 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.8.20-1.fmi
 - smartmet-frontend.service: add setting coredump filter (with override possibility)
 

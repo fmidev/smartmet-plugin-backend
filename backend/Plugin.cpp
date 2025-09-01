@@ -65,11 +65,6 @@ void Plugin::requestHandler(SmartMet::Spine::Reactor &theReactor,
 {
   try
   {
-    if (checkRequest(theRequest, theResponse, false))
-    {
-      return;
-    }
-
     theResponse.setStatus(SmartMet::Spine::HTTP::Status::ok);
     if (Reactor::isShuttingDown())
       theResponse.setContent("SmartMet Server shutting down");

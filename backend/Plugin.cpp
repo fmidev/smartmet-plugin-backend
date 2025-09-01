@@ -353,10 +353,6 @@ void Plugin::faviconHandler(Reactor & /* theReactor */,
                             const HTTP::Request &theRequest,
                             HTTP::Response &theResponse)
 {
-  if (checkRequest(theRequest, theResponse, false))
-  {
-    return;
-  }
   if (itsFavicon.empty())
   {
     theResponse.setStatus(HTTP::Status::no_content);

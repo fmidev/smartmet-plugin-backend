@@ -15,6 +15,7 @@ After=smartmet-data.mount
 Type=simple
 
 EnvironmentFile=/etc/smartmet/smartmet-backend.env
+Environmnet=LD_PRELOAD=${PRELOAD:-/usr/lib64/libjemalloc.so.2}
 ExecStart=/usr/sbin/smartmetd --port=${PORT} --configfile ${CONFIGFILE}
 
 LimitCORE=infinity

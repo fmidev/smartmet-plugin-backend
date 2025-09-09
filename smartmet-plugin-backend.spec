@@ -71,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 %defattr(0644,root,root,0755)
 %config(noreplace) %{_sysconfdir}/smartmet/smartmet-backend.env
-%{_sysconfdir}/smartmet/smartmet-frontend.defaults.env
+%{_sysconfdir}/smartmet/smartmet-backend.defaults.env
 %{_unitdir}/smartmet-backend.service
 
 %changelog

@@ -2,8 +2,8 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 25.9.1
-Release: 2%{?dist}.fmi
+Version: 25.9.9
+Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
 URL: https://github.com/fmidev/smartmet-plugin-backend
@@ -75,6 +75,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Tue Sep  9 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.9.9-1.fmi
+- Set CAP_NET_BIND_SERVICE for smartmet-backend.service
+- Specify libjemalloc.so in LD_PRELOAD (can be overriden in /etc/smartmet/smartmet-backend.env)
+
 * Mon Sep  1 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.9.1-2.fmi
 - Update according to smartmet-library-spine ABI changes
 

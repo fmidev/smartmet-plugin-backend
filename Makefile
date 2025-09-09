@@ -34,6 +34,15 @@ INCLUDES := -I$(SUBNAME) $(INCLUDES)
 
 .PHONY: test rpm
 
+# Detect jemalloc shared library for LD_PRELOAD environment variable
+# Fall back to a common location if ldconfig is not available
+# (LD_PRELOAD failure does not prevent service start)
+JEMALLOC := $(shell ldconfig -p 2>/dev/null | grep libjemalloc\.so\. | head -n1 | awk '{print $$4}')
+ifneq ($(JEMALLOC),)
+	JEMALLOC_DIR := $(shell dirname $(JEMALLOC))
+	JEMALLOC := $(shell readlink -f $(JEMALLOC_DIR))/$(shell basename $(JEMALLOC))
+endif
+
 # The rules
 
 all: objdir $(LIBFILE)
@@ -59,6 +68,7 @@ install:
 	$(INSTALL_PROG) $(LIBFILE) $(plugindir)/$(LIBFILE)
 	@mkdir -p $(sysconfdir)/smartmet
 	$(INSTALL_DATA) etc/smartmet-backend.env $(sysconfdir)/smartmet/smartmet-backend.env
+	sed -e "s,@LD_PRELOAD@,LD_PRELOAD=$(JEMALLOC)," etc/smartmet-backend.defaults.env.in > $(sysconfdir)/smartmet/smartmet-backend.defaults.env
 	@mkdir -p $(libdir)/../lib/systemd/system
 	$(INSTALL_DATA) systemd/smartmet-backend.service $(libdir)/../lib/systemd/system/
 

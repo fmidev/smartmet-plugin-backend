@@ -27,11 +27,13 @@ BuildRequires: smartmet-library-spine-devel >= 25.9.1
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 25.2.18
 BuildRequires: %{smartmet_boost}-devel
+BuildRequires: jemalloc
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
 Requires: smartmet-server >= 25.2.18
 Requires: smartmet-library-spine >= 25.9.1
 Requires: smartmet-engine-sputnik >= 25.2.18
+Requires: jemalloc
 
 %if 0%{rhel} >= 7
 Requires: %{smartmet_boost}-system
@@ -69,6 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/smartmet/plugins/%{DIRNAME}.so
 %defattr(0644,root,root,0755)
 %config(noreplace) %{_sysconfdir}/smartmet/smartmet-backend.env
+%{_sysconfdir}/smartmet/smartmet-frontend.defaults.env
 %{_unitdir}/smartmet-backend.service
 
 %changelog

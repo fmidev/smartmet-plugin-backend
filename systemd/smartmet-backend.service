@@ -14,16 +14,19 @@ After=smartmet-data.mount
 # Not a real daemon
 Type=simple
 
+EnvironmentFile=/etc/smartmet/smartmet-backend.defaults.env
 EnvironmentFile=/etc/smartmet/smartmet-backend.env
-Environmnet=LD_PRELOAD=${PRELOAD:-/usr/lib64/libjemalloc.so.2}
+
+# Give capabilities what we need and restrict to them only
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+
+NoNewPrivileges=true
+
 ExecStart=/usr/sbin/smartmetd --port=${PORT} --configfile ${CONFIGFILE}
 
 LimitCORE=infinity
 # LimitCORE=0
-
-# RHEL7/RHEL8 do not yet support the CoredumpFilter setting
-# CoredumpFilter=default
-# CoredumpFilter=private-anonymous
 
 # Do not retry too fast if there are some I/O or similar issues
 Restart=always

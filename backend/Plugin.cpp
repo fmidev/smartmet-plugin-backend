@@ -23,6 +23,9 @@ namespace Plugin
 {
 namespace Backend
 {
+namespace  // anonymous
+{
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Format a time for HTTP output
@@ -51,6 +54,7 @@ std::string read_file(const std::string &filename)
   content.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
   return content;
 }
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!
@@ -103,7 +107,6 @@ Plugin::Plugin(SmartMet::Spine::Reactor *theReactor, const char *theConfig)
 // ----------------------------------------------------------------------
 void Plugin::init()
 {
-  namespace p = std::placeholders;
   try
   {
     // We allow the configuration file to be unset,

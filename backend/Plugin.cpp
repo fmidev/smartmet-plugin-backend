@@ -163,38 +163,46 @@ void Plugin::init()
             this,
             "clusterinfo",
             AdminRequestAccess::Public,
-            std::bind(&Plugin::requestClusterInfo, this, p::_1, p::_2, p::_3),
+            [this](auto &&a, auto &&b, auto &&c)
+            {
+              requestClusterInfo(std::forward<decltype(a)>(a),
+                                 std::forward<decltype(b)>(b),
+                                 std::forward<decltype(c)>(c));
+            },
             "Request cluster info"))
     {
       throw Fmi::Exception(BCP, "Failed to register clusterinfo admin request handler");
     }
 
     // Add continue admin handler
-    if (!itsReactor->addAdminStringRequestHandler(this,
-                                                  "continue",
-                                                  AdminRequestAccess::RequiresAuthentication,
-                                                  std::bind(&Plugin::setContinue, this, p::_2),
-                                                  "Continue Sputnik"))
+    if (!itsReactor->addAdminStringRequestHandler(
+            this,
+            "continue",
+            AdminRequestAccess::RequiresAuthentication,
+            [this](auto &&, auto &&b) { return setContinue(std::forward<decltype(b)>(b)); },
+            "Continue Sputnik"))
     {
       throw Fmi::Exception(BCP, "Failed to register continue admin request handler");
     }
 
     // Add pause admin handler
-    if (!itsReactor->addAdminStringRequestHandler(this,
-                                                  "pause",
-                                                  AdminRequestAccess::RequiresAuthentication,
-                                                  std::bind(&Plugin::setPause, this, p::_2),
-                                                  "Pause Sputnik"))
+    if (!itsReactor->addAdminStringRequestHandler(
+            this,
+            "pause",
+            AdminRequestAccess::RequiresAuthentication,
+            [this](auto &&, auto &&b) { return setPause(std::forward<decltype(b)>(b)); },
+            "Pause Sputnik"))
     {
       throw Fmi::Exception(BCP, "Failed to register pause admin request handler");
     }
 
     // Add backend info admin handler
-    if (!itsReactor->addAdminTableRequestHandler(this,
-                                                 "backends",
-                                                 AdminRequestAccess::Public,
-                                                 std::bind(&Plugin::getBackendInfo, this, p::_2),
-                                                 "Get backend info"))
+    if (!itsReactor->addAdminTableRequestHandler(
+            this,
+            "backends",
+            AdminRequestAccess::Public,
+            [this](auto &&, auto &&b) { return getBackendInfo(std::forward<decltype(b)>(b)); },
+            "Get backend info"))
     {
       throw Fmi::Exception(BCP, "Failed to register backends admin request handler");
     }

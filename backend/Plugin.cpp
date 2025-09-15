@@ -5,13 +5,13 @@
 // ======================================================================
 
 #include "Plugin.h"
-#include <filesystem>
-#include <functional>
 #include <macgyver/StringConversion.h>
 #include <spine/ConfigTools.h>
 #include <spine/Convenience.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMet.h>
+#include <filesystem>
+#include <functional>
 #include <iostream>
 #include <libconfig.h++>
 #include <sstream>
@@ -138,13 +138,13 @@ void Plugin::init()
     // Start Sputnik engine in backend mode
     itsSputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
 
-    if (!itsReactor->addContentHandler(this,
-                                       "/",
-                                       [this](Spine::Reactor &theReactor,
-                                              const Spine::HTTP::Request &theRequest,
-                                              Spine::HTTP::Response &theResponse) {
-                                         callRequestHandler(theReactor, theRequest, theResponse);
-                                       }))
+    if (!itsReactor->addContentHandler(
+            this,
+            "/",
+            [this](Spine::Reactor &theReactor,
+                   const Spine::HTTP::Request &theRequest,
+                   Spine::HTTP::Response &theResponse)
+            { callRequestHandler(theReactor, theRequest, theResponse); }))
       throw Fmi::Exception(BCP, "Failed to register base content handler");
 
     // Add Favicon content handler
@@ -160,44 +160,41 @@ void Plugin::init()
 
     // Add cluster info admin handler
     if (!itsReactor->addAdminCustomRequestHandler(
-          this,
-          "clusterinfo",
-          AdminRequestAccess::Public,
-          std::bind(&Plugin::requestClusterInfo, this, p::_1, p::_2, p::_3),
-          "Request cluster info"))
+            this,
+            "clusterinfo",
+            AdminRequestAccess::Public,
+            std::bind(&Plugin::requestClusterInfo, this, p::_1, p::_2, p::_3),
+            "Request cluster info"))
     {
       throw Fmi::Exception(BCP, "Failed to register clusterinfo admin request handler");
     }
 
     // Add continue admin handler
-    if (!itsReactor->addAdminStringRequestHandler(
-          this,
-          "continue",
-          AdminRequestAccess::RequiresAuthentication,
-          std::bind(&Plugin::setContinue, this, p::_2),
-          "Continue Sputnik"))
+    if (!itsReactor->addAdminStringRequestHandler(this,
+                                                  "continue",
+                                                  AdminRequestAccess::RequiresAuthentication,
+                                                  std::bind(&Plugin::setContinue, this, p::_2),
+                                                  "Continue Sputnik"))
     {
       throw Fmi::Exception(BCP, "Failed to register continue admin request handler");
     }
 
     // Add pause admin handler
-    if (!itsReactor->addAdminStringRequestHandler(
-          this,
-          "pause",
-          AdminRequestAccess::RequiresAuthentication,
-          std::bind(&Plugin::setPause, this, p::_2),
-          "Pause Sputnik"))
+    if (!itsReactor->addAdminStringRequestHandler(this,
+                                                  "pause",
+                                                  AdminRequestAccess::RequiresAuthentication,
+                                                  std::bind(&Plugin::setPause, this, p::_2),
+                                                  "Pause Sputnik"))
     {
       throw Fmi::Exception(BCP, "Failed to register pause admin request handler");
     }
 
     // Add backend info admin handler
-    if (!itsReactor->addAdminTableRequestHandler(
-          this,
-          "backends",
-          AdminRequestAccess::Public,
-          std::bind(&Plugin::getBackendInfo, this, p::_2),
-          "Get backend info"))
+    if (!itsReactor->addAdminTableRequestHandler(this,
+                                                 "backends",
+                                                 AdminRequestAccess::Public,
+                                                 std::bind(&Plugin::getBackendInfo, this, p::_2),
+                                                 "Get backend info"))
     {
       throw Fmi::Exception(BCP, "Failed to register backends admin request handler");
     }
@@ -214,7 +211,7 @@ void Plugin::init()
  */
 // ----------------------------------------------------------------------
 
-std::unique_ptr<Table> Plugin::getBackendInfo(const HTTP::Request& theRequest)
+std::unique_ptr<Table> Plugin::getBackendInfo(const HTTP::Request &theRequest)
 try
 {
   std::string service = Spine::optional_string(theRequest.getParameter("service"), "");
@@ -226,16 +223,15 @@ catch (...)
   throw Fmi::Exception::Trace(BCP, "Operation failed!");
 }
 
-
 // ----------------------------------------------------------------------
 /*!
  * \brief Request cluster info
  */
 // ----------------------------------------------------------------------
 
-void Plugin::requestClusterInfo(Spine::Reactor& theReactor,
-                                const HTTP::Request& theRequest,
-                                HTTP::Response& theResponse) const
+void Plugin::requestClusterInfo(Spine::Reactor &theReactor,
+                                const HTTP::Request &theRequest,
+                                HTTP::Response &theResponse) const
 try
 {
   const std::optional<std::string> adminUri = theReactor.getAdminUri();
@@ -266,7 +262,7 @@ catch (...)
  */
 // ----------------------------------------------------------------------
 
-std::string Plugin::setContinue(const HTTP::Request& theRequest)
+std::string Plugin::setContinue(const HTTP::Request &theRequest)
 try
 {
   // Optional deadline or duration:
@@ -280,24 +276,22 @@ try
     itsSputnik->setPauseUntil(deadline);
     return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
   }
-  else if (duration_opt)
+
+  if (duration_opt)
   {
     auto duration = Fmi::TimeParser::parse_duration(*duration_opt);
     auto deadline = Fmi::SecondClock::universal_time() + duration;
     itsSputnik->setPauseUntil(deadline);
     return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
   }
-  else
-  {
-    itsSputnik->setContinue();
-    return "Sputnik continue request made";
-  }
+
+  itsSputnik->setContinue();
+  return "Sputnik continue request made";
 }
 catch (...)
 {
   throw Fmi::Exception::Trace(BCP, "Operation failed!");
 }
-
 
 // ----------------------------------------------------------------------
 /*!
@@ -305,7 +299,7 @@ catch (...)
  */
 // ----------------------------------------------------------------------
 
-std::string Plugin::setPause(const HTTP::Request& theRequest)
+std::string Plugin::setPause(const HTTP::Request &theRequest)
 try
 {
   // Optional deadline or duration:
@@ -319,24 +313,22 @@ try
     itsSputnik->setPauseUntil(deadline);
     return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
   }
-  else if (duration_opt)
+
+  if (duration_opt)
   {
     auto duration = Fmi::TimeParser::parse_duration(*duration_opt);
     auto deadline = Fmi::SecondClock::universal_time() + duration;
     itsSputnik->setPauseUntil(deadline);
     return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
   }
-  else
-  {
-    itsSputnik->setPause();
-    return "Paused Sputnik until a continue request arrives";
-  }
+
+  itsSputnik->setPause();
+  return "Paused Sputnik until a continue request arrives";
 }
 catch (...)
 {
   throw Fmi::Exception::Trace(BCP, "Operation failed!");
 }
-
 
 // ----------------------------------------------------------------------
 /*!

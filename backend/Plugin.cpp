@@ -60,7 +60,7 @@ std::string read_file(const std::string &filename)
 
 // this is the content handler for URL /
 void Plugin::requestHandler(SmartMet::Spine::Reactor &theReactor,
-                            const SmartMet::Spine::HTTP::Request &theRequest,
+                            const SmartMet::Spine::HTTP::Request & /* theRequest */,
                             SmartMet::Spine::HTTP::Response &theResponse)
 {
   try
@@ -337,7 +337,7 @@ catch (...)
 // ----------------------------------------------------------------------
 
 void Plugin::faviconHandler(Reactor & /* theReactor */,
-                            const HTTP::Request &theRequest,
+                            const HTTP::Request & /* theRequest */,
                             HTTP::Response &theResponse)
 {
   if (itsFavicon.empty())

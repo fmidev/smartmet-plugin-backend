@@ -135,8 +135,7 @@ void Plugin::init()
     }
 
     // Launch a new instance of Sputnik on network ItsNetworkAddress
-    itsSputnik = reinterpret_cast<SmartMet::Engine::Sputnik::Engine *>(
-        itsReactor->getSingleton("Sputnik", nullptr));
+    itsSputnik = itsReactor->getEngine<SmartMet::Engine::Sputnik::Engine>("Sputnik", nullptr);
 
     // Start Sputnik engine in backend mode
     itsSputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);

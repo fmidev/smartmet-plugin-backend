@@ -53,7 +53,7 @@ class Plugin : public SmartMetPlugin
   const std::string itsModuleName;
   const std::string itsConfig;
   SmartMet::Spine::Reactor* itsReactor = nullptr;
-  SmartMet::Engine::Sputnik::Engine* itsSputnik = nullptr;
+  std::shared_ptr<SmartMet::Engine::Sputnik::Engine> itsSputnik;
   std::string itsFavicon;
 
 };  // class Plugin

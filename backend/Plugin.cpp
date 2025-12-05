@@ -140,13 +140,13 @@ void Plugin::init()
     // Start Sputnik engine in backend mode
     itsSputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
 
-    if (!itsReactor->addContentHandler(
-            this,
-            "/",
-            [this](Spine::Reactor &theReactor,
-                   const Spine::HTTP::Request &theRequest,
-                   Spine::HTTP::Response &theResponse)
-            { callRequestHandler(theReactor, theRequest, theResponse); }))
+    if (!itsReactor->addContentHandler(this,
+                                       "/",
+                                       [this](Spine::Reactor &theReactor,
+                                              const Spine::HTTP::Request &theRequest,
+                                              Spine::HTTP::Response &theResponse) {
+                                         callRequestHandler(theReactor, theRequest, theResponse);
+                                       }))
       throw Fmi::Exception(BCP, "Failed to register base content handler");
 
     // Add Favicon content handler

@@ -13,7 +13,6 @@ DEFINES = -DUNIX -D_REENTRANT
 LIBS += $(PREFIX_LDFLAGS) \
 	$(REQUIRED_LIBS) \
 	-lsmartmet-spine \
-	-lboost_system
 
 # What to install
 

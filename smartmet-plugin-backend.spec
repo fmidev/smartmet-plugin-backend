@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 26.2.4
+Version: 26.4.13
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -23,16 +23,16 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 26.2.4
+BuildRequires: smartmet-library-spine-devel >= 26.4.13
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 26.2.4
+BuildRequires: smartmet-engine-sputnik-devel >= 26.4.13
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 26.2.4
-Requires: smartmet-library-spine >= 26.2.4
-Requires: smartmet-engine-sputnik >= 26.2.4
+Requires: smartmet-server >= 26.4.13
+Requires: smartmet-library-spine >= 26.4.13
+Requires: smartmet-engine-sputnik >= 26.4.13
 Requires: jemalloc
 
 %if 0%{rhel} >= 7
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Mon Apr 13 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> 26.4.13-1.fmi
+- Repackaged due to API changes
+
 * Wed Feb  4 2026 Andris Pavēnis <andris.pavenis@fmi.fi> 26.2.4-1.fmi
 - Update to proj-9.7, gdal-3.12, fmt-12
 

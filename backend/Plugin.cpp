@@ -40,6 +40,20 @@ std::string format_time(const ::time_t theTime)
 
 // ----------------------------------------------------------------------
 /*!
+ * \brief Format a pause deadline for an operator to read
+ *
+ * The zone is spelled out since the deadline is UTC while the server log
+ * timestamps beside it are local.
+ */
+// ----------------------------------------------------------------------
+
+std::string format_deadline(const Fmi::DateTime &theTime)
+{
+  return Fmi::to_simple_string(theTime) + " UTC";
+}
+
+// ----------------------------------------------------------------------
+/*!
  * \brief Read a file into a string
  */
 // ----------------------------------------------------------------------
@@ -284,7 +298,7 @@ try
   {
     auto deadline = Fmi::TimeParser::parse(*time_opt);
     itsSputnik->setPauseUntil(deadline);
-    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+    return "Paused Sputnik until " + format_deadline(deadline);
   }
 
   if (duration_opt)
@@ -292,7 +306,7 @@ try
     auto duration = Fmi::TimeParser::parse_duration(*duration_opt);
     auto deadline = Fmi::SecondClock::universal_time() + duration;
     itsSputnik->setPauseUntil(deadline);
-    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+    return "Paused Sputnik until " + format_deadline(deadline);
   }
 
   itsSputnik->setContinue();
@@ -321,7 +335,7 @@ try
   {
     auto deadline = Fmi::TimeParser::parse(*time_opt);
     itsSputnik->setPauseUntil(deadline);
-    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+    return "Paused Sputnik until " + format_deadline(deadline);
   }
 
   if (duration_opt)
@@ -329,7 +343,7 @@ try
     auto duration = Fmi::TimeParser::parse_duration(*duration_opt);
     auto deadline = Fmi::SecondClock::universal_time() + duration;
     itsSputnik->setPauseUntil(deadline);
-    return "Paused Sputnik until " + Fmi::to_iso_string(deadline);
+    return "Paused Sputnik until " + format_deadline(deadline);
   }
 
   itsSputnik->setPause();

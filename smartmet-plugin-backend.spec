@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 26.6.24
+Version: 26.9.18
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -25,14 +25,14 @@ BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
 BuildRequires: smartmet-library-spine-devel >= 26.6.24
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 26.6.24
+BuildRequires: smartmet-engine-sputnik-devel >= 26.9.18
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
 Requires: smartmet-server >= 26.6.24
 Requires: smartmet-library-spine >= 26.6.24
-Requires: smartmet-engine-sputnik >= 26.6.24
+Requires: smartmet-engine-sputnik >= 26.9.18
 Requires: jemalloc
 
 %if 0%{rhel} >= 7
@@ -75,6 +75,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Fri Sep 18 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.18-1.fmi
+- Pause deadlines are now reported in a readable form ('2026-Sep-18 06:21:21 UTC')
+  instead of a bare ISO timestamp
+- Rebuilt against smartmet-engine-sputnik 26.9.18, whose Engine layout changed
+
 * Wed Jun 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.6.24-1.fmi
 - Mass rebuild
 

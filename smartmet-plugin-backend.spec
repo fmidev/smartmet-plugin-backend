@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 26.9.18
+Version: 26.9.13
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -23,15 +23,15 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 26.6.24
+BuildRequires: smartmet-library-spine-devel >= 26.9.23
 BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 26.9.18
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 26.6.24
-Requires: smartmet-library-spine >= 26.6.24
+Requires: smartmet-server >= 26.9.2
+Requires: smartmet-library-spine >= 26.9.23
 Requires: smartmet-engine-sputnik >= 26.9.18
 Requires: jemalloc
 
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Wed Sep 23 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.13-1.fmi
+- Repackaged due to base library ABI changes
 * Fri Sep 18 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.18-1.fmi
 - Pause deadlines are now reported in a readable form ('2026-Sep-18 06:21:21 UTC')
   instead of a bare ISO timestamp
@@ -217,7 +219,7 @@ rm -rf $RPM_BUILD_ROOT
 - Send "Backend paused" response if Sputnik has been paused, default is "SmartMet Server"
 
 * Mon Aug 20 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.8.20-1.fmi
-- Use optional_size instead of optional_unsigned_long to avoid integer conversions
+- Use optional_size instead of optional_unsigned_long to avoid integer conversion3
 - Silenced a CodeChecker warning on extern "C" pointers not having owners
 
 * Fri Aug  3 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.8.3-1.fmi

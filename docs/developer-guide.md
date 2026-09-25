@@ -52,18 +52,9 @@ elsewhere.
 
 ## Known pitfalls
 
-* **`pause` and `continue` disappear without admin credentials.** They are registered
-  with `RequiresAuthentication`, and spine silently skips such registrations unless the
-  server configuration has `admin.user` and `admin.password`. The registration still
-  reports success, so nothing warns you. Configure the credentials on every backend.
+* **`pause` and `continue` need admin credentials.** Configure `admin.user` and
+  `admin.password` on every backend.
 * **The health check is always 200.** Anything that monitors a backend directly must match
   the body, and a paused backend's body (`SmartMet Server paused`) still contains the word
   `SmartMet` that the F5 checks match for frontends. Backends are taken out of rotation by
   sputnik, not by the health check.
-* **The override file names the wrong variables.** `etc/smartmet-backend.env` suggests
-  `COREDUMP_MASK` and `PRELOAD`, but the unit reads `COREDUMP_FILTER` and the defaults file
-  sets `LD_PRELOAD`. Uncommenting the suggested lines has no effect; set
-  `COREDUMP_FILTER` / `LD_PRELOAD` instead.
-* **`TimeoutStopSec=35s` versus spine's 60 s shutdown deadline.** systemd kills the process
-  before spine's own shutdown watchdog would, so a slow plugin shutdown ends in SIGKILL
-  after 35 s.

@@ -6,6 +6,10 @@ Part of [SmartMet Server](https://github.com/fmidev/smartmet-server). See the [S
 
 The backend plugin handles requests routed from frontend servers in a SmartMet Server cluster. It works together with [smartmet-plugin-frontend](https://github.com/fmidev/smartmet-plugin-frontend) and [smartmet-engine-sputnik](https://github.com/fmidev/smartmet-engine-sputnik) to support load-balanced deployments.
 
+## Documentation
+
+- [Developer guide](docs/developer-guide.md) — what the plugin does in a cluster, admin requests, service files, pitfalls
+
 ## License
 
 MIT — see [LICENSE](LICENSE)

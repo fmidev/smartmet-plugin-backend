@@ -8,6 +8,8 @@ The **backend plugin** (`smartmet-plugin-backend`) is a SmartMet Server plugin t
 
 The plugin is minimal: two source files (`backend/Plugin.h`, `backend/Plugin.cpp`) producing `backend.so`.
 
+Full developer documentation: `docs/developer-guide.md`.
+
 ## Build commands
 
 ```bash

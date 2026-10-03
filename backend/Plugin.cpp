@@ -272,7 +272,7 @@ try
   std::string ret = "<html><head><title>SmartMet Admin</title></head><body>";
   ret += out.str();
   ret += "</body></html>";
-  theResponse.setContent(ret);
+  theResponse.setContent(std::move(ret));
   theResponse.setStatus(HTTP::Status::ok);
 }
 catch (...)

@@ -43,7 +43,7 @@ drained and restored without failing client requests.
 |------|----------|
 | `backend/Plugin.{h,cpp}` | The whole plugin. |
 | `cnf/backend.conf.sample` | Sample configuration (`favicon`). |
-| `systemd/smartmet-backend.service` | Runs `/usr/sbin/smartmetd --port=${PORT} --configfile ${CONFIGFILE}` as `smartmet-server`, with `Restart=always`, unlimited core size and descriptors, and `TimeoutStopSec=35s`. |
+| `systemd/smartmet-backend.service` | Runs `/usr/sbin/smartmetd --port=${PORT} --configfile ${CONFIGFILE}` as `smartmet-server`, with `Restart=always`, unlimited core size and descriptors, and `TimeoutStopSec=65s`, longer than spine's 60 s shutdown deadline. |
 | `etc/smartmet-backend.defaults.env.in` | Installed as `/etc/smartmet/smartmet-backend.defaults.env` (overwritten on upgrade): `LD_PRELOAD` of the detected jemalloc, and `COREDUMP_FILTER=0x33`. |
 | `etc/smartmet-backend.env` | Installed as `/etc/smartmet/smartmet-backend.env`, the local overrides (`CONFIGFILE`, …). |
 

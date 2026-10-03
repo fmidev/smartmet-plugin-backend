@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 26.9.24
+Version: 26.10.3
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -23,16 +23,16 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 26.9.23
+BuildRequires: smartmet-library-spine-devel >= 26.10.3
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 26.9.18
+BuildRequires: smartmet-engine-sputnik-devel >= 26.10.3
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
 Requires: smartmet-server >= 26.9.2
-Requires: smartmet-library-spine >= 26.9.23
-Requires: smartmet-engine-sputnik >= 26.9.18
+Requires: smartmet-library-spine >= 26.10.3
+Requires: smartmet-engine-sputnik >= 26.10.3
 Requires: jemalloc
 
 %if 0%{rhel} >= 7
@@ -75,6 +75,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Sat Oct 03 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.3-1.fmi
+- Move the admin page body into the HTTP response
+- Stop timeout longer than the server's shutdown deadline
+- Use the variable names the unit reads in smartmet-backend.env
+
 * Thu Sep 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.24-1.fmi
 - Repackaged due to base library ABI changes
 * Fri Sep 18 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.18-1.fmi

@@ -253,7 +253,7 @@ catch (...)
  */
 // ----------------------------------------------------------------------
 
-void Plugin::requestClusterInfo(Spine::Reactor &theReactor,
+void Plugin::requestClusterInfo(const Spine::Reactor& theReactor,
                                 const HTTP::Request &theRequest,
                                 HTTP::Response &theResponse) const
 try
@@ -360,7 +360,7 @@ catch (...)
  */
 // ----------------------------------------------------------------------
 
-void Plugin::faviconHandler(Reactor & /* theReactor */,
+void Plugin::faviconHandler(const Reactor& /* theReactor */,
                             const HTTP::Request & /* theRequest */,
                             HTTP::Response &theResponse)
 {

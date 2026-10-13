@@ -40,13 +40,13 @@ class Plugin : public SmartMetPlugin
                       const HTTP::Request& theRequest,
                       HTTP::Response& theResponse) override;
 
-  void faviconHandler(Reactor& theReactor,
+  void faviconHandler(const Reactor& theReactor,
                       const HTTP::Request& theRequest,
                       HTTP::Response& theResponse);
 
  private:
   std::unique_ptr<Table> getBackendInfo(const HTTP::Request& theRequest);
-  void requestClusterInfo(Reactor& theReactor,
+  void requestClusterInfo(const Reactor& theReactor,
                           const HTTP::Request& theRequest,
                           HTTP::Response& theResponse) const;
   std::string setContinue(const HTTP::Request& theRequest);

@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 26.10.15
+Version: 26.10.16
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -23,16 +23,16 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 26.10.15
+BuildRequires: smartmet-library-spine-devel >= 26.10.16
 BuildRequires: protobuf-devel
-BuildRequires: smartmet-engine-sputnik-devel >= 26.10.15
+BuildRequires: smartmet-engine-sputnik-devel >= 26.10.16
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 26.10.15
-Requires: smartmet-library-spine >= 26.10.15
-Requires: smartmet-engine-sputnik >= 26.10.15
+Requires: smartmet-server >= 26.10.16
+Requires: smartmet-library-spine >= 26.10.16
+Requires: smartmet-engine-sputnik >= 26.10.16
 Requires: jemalloc
 
 %if 0%{rhel} >= 7
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Fri Oct 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.16-1.fmi
+- Rebuilt due to ABI changes in macgyver, spine, newbase and other libraries
+
 * Thu Oct 15 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.15-1.fmi
 - Declare member functions and parameters const where nothing is modified (const correctness), no functional changes
 - Requires 26.10.15 versions of spine due to their ABI changes

@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 26.10.16
+Version: 26.10.17
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -30,8 +30,8 @@ BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
 Requires: protobuf
 Requires: libconfig17 >= 1.7.3
-Requires: smartmet-server >= 26.10.16
-Requires: smartmet-library-spine >= 26.10.16
+Requires: smartmet-server >= 26.10.17
+Requires: smartmet-library-spine >= 26.10.17
 Requires: smartmet-engine-sputnik >= 26.10.16
 Requires: jemalloc
 
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Sat Oct 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.17-1.fmi
+- Rebuilt against the new library versions
+
 * Fri Oct 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.16-1.fmi
 - Rebuilt due to ABI changes in macgyver, spine, newbase and other libraries
 

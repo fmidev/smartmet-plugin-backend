@@ -24,11 +24,9 @@ BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
 BuildRequires: smartmet-library-spine-devel >= 26.10.16
-BuildRequires: protobuf-devel
 BuildRequires: smartmet-engine-sputnik-devel >= 26.10.16
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
-Requires: protobuf
 Requires: libconfig17 >= 1.7.3
 Requires: smartmet-server >= 26.10.17
 Requires: smartmet-library-spine >= 26.10.17

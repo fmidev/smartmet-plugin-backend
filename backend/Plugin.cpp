@@ -155,7 +155,7 @@ void Plugin::init()
     itsSputnik->launch(SmartMet::Engine::Sputnik::Backend, itsReactor);
 
     if (!itsReactor->addContentHandler(this,
-                                       "/",
+                                       Spine::Reactor::HandlerOptions("/"),
                                        [this](Spine::Reactor &theReactor,
                                               const Spine::HTTP::Request &theRequest,
                                               Spine::HTTP::Response &theResponse) {
@@ -165,7 +165,7 @@ void Plugin::init()
 
     // Add Favicon content handler
     if (!itsReactor->addContentHandler(this,
-                                       "/favicon.ico",
+                                       Spine::Reactor::HandlerOptions("/favicon.ico"),
                                        [this](Spine::Reactor &theReactor,
                                               const Spine::HTTP::Request &theRequest,
                                               Spine::HTTP::Response &theResponse)

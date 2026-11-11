@@ -23,13 +23,13 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: libconfig17-devel >= 1.7.3
-BuildRequires: smartmet-library-spine-devel >= 26.10.16
+BuildRequires: smartmet-library-spine-devel >= 26.11.11
 BuildRequires: smartmet-engine-sputnik-devel >= 26.10.16
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: jemalloc
 Requires: libconfig17 >= 1.7.3
 Requires: smartmet-server >= 26.10.17
-Requires: smartmet-library-spine >= 26.10.17
+Requires: smartmet-library-spine >= 26.11.11
 Requires: smartmet-engine-sputnik >= 26.10.16
 Requires: jemalloc
 

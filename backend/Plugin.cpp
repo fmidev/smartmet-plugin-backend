@@ -5,17 +5,26 @@
 // ======================================================================
 
 #include "Plugin.h"
+#include <engines/sputnik/Engine.h>
+#include <macgyver/DateTime.h>
+#include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
+#include <macgyver/TimeParser.h>
 #include <spine/ConfigTools.h>
 #include <spine/Convenience.h>
+#include <spine/HTTP.h>
 #include <spine/Reactor.h>
 #include <spine/SmartMet.h>
+#include <ctime>
 #include <filesystem>
+#include <fstream>
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <libconfig.h++>
+#include <optional>
 #include <sstream>
-#include <stdexcept>
+#include <utility>
 
 namespace SmartMet
 {

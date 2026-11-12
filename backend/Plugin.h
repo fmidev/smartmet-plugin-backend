@@ -6,10 +6,24 @@
 
 #pragma once
 
-#include <engines/sputnik/Engine.h>
-#include <spine/Reactor.h>
 #include <spine/SmartMetPlugin.h>
 #include <spine/Table.h>
+#include <memory>
+#include <string>
+
+namespace SmartMet::Engine::Sputnik
+{
+class Engine;
+}  // namespace SmartMet::Engine::Sputnik
+namespace SmartMet::Spine::HTTP
+{
+class Request;
+class Response;
+}  // namespace SmartMet::Spine::HTTP
+namespace SmartMet::Spine
+{
+class Reactor;
+}  // namespace SmartMet::Spine
 
 namespace SmartMet
 {

@@ -2,7 +2,7 @@
 %define SPECNAME smartmet-plugin-%{DIRNAME}
 Summary: SmartMet backend plugin
 Name: %{SPECNAME}
-Version: 26.10.26
+Version: 26.11.13
 Release: 1%{?dist}.fmi
 License: MIT
 Group: SmartMet/Plugins
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/smartmet-backend.service
 
 %changelog
+* Fri Nov 13 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.13-1.fmi
+- Include cleanup: files include what they use, unnecessary includes removed. No functional changes
+
 * Mon Oct 26 2026 Andris Pavēnis <andris.pavenis@fmi.fi> 26.10.26-1.fmi
 - Bump version
 
